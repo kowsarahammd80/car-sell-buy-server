@@ -97,12 +97,15 @@ async function run() {
       res.send(result);
     });
 
-    //get product 
+    //get my product list
 
-    // app.get('/products/:email', async(req, res) => {
-    //    const email = req.params.seller;
-    //    const query = {seller: 'email'}
-    // })
+    app.get('/products/:email', async(req, res) => {
+       const email = req.params.seller;
+       const query = {email}
+       const result = productsDataCollection.find(query);
+       const curser = await result.toArray()
+       res.send(curser)
+    })
 
     // car category wise get
     app.get("/allCars", async (req, res) => {
