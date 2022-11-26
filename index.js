@@ -97,6 +97,13 @@ async function run() {
       res.send(result);
     });
 
+    //get product 
+
+    // app.get('/products/:email', async(req, res) => {
+    //    const email = req.params.seller;
+    //    const query = {seller: 'email'}
+    // })
+
     // car category wise get
     app.get("/allCars", async (req, res) => {
 
