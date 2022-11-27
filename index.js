@@ -28,6 +28,7 @@ async function run() {
     const categoryLoginCollection = client.db("Car-sell-buy").collection("category")
     const productsDataCollection = client.db("Car-sell-buy").collection("productCollection");
     const bookingDataCollection = client.db('Car-sell-buy').collection('bookingData')
+    const reportDataCollection = client.db('Car-sell-buy').collection('reportData')
 
   // register time post 
     app.post('/registerData', async (req, res) => {
@@ -100,8 +101,9 @@ async function run() {
     //get my product list
 
     app.get('/products/:email', async(req, res) => {
-       const email = req.params.seller;
-       const query = {email}
+       const productEmail = req.params.email;
+      //  console.log(productEmail)
+       const query = {seller: productEmail}
        const result = productsDataCollection.find(query);
        const curser = await result.toArray()
        res.send(curser)
@@ -129,6 +131,24 @@ async function run() {
     app.post('/bookingData', async(req, res) => {
        const bookingData = req.body; 
        const result = await bookingDataCollection.insertOne(bookingData)
+       res.send(result)
+    })
+
+    //get myOrder 
+    app.get('/bookingData/:email', async(req, res) => {
+        
+      const bookingEmail = req.params.email
+      const query = {email: bookingEmail}
+      const result = bookingDataCollection.find(query)
+      const curser = await result.toArray()
+      res.send(curser)
+
+    }) 
+
+    //report post
+    app.post('/reportData', async (req, res) => {
+       const reportData = req.body
+       const result = await reportDataCollection.insertOne(reportData)
        res.send(result)
     })
 
