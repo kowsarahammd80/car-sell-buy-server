@@ -37,6 +37,13 @@ async function run() {
       res.send(result)
     });
 
+    //get all user
+    app.get('/allUser', async(req, res) => {
+      const query = {}
+       const allUser = await userLoginCollection.find(query).toArray()
+       res.send(allUser)
+    })
+
     app.get('/userData/:id', async(req, res) => {
        const id = req.params.id;
        const query ={_id: ObjectId(id)};
