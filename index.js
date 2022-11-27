@@ -109,6 +109,14 @@ async function run() {
        res.send(curser)
     })
 
+    // product delete
+    app.delete('/productsData/:id', async(req, res) => {
+       const ID = req.params.id;
+       const query = {_id: ObjectId(ID)}
+       const result = await productsDataCollection.deleteOne(query)
+       res.send(result)
+    })
+
     // car category wise get
     app.get("/allCars", async (req, res) => {
 
@@ -134,7 +142,7 @@ async function run() {
        res.send(result)
     })
 
-    //get myOrder 
+    // get myOrder 
     app.get('/bookingData/:email', async(req, res) => {
         
       const bookingEmail = req.params.email
@@ -151,6 +159,32 @@ async function run() {
        const result = await reportDataCollection.insertOne(reportData)
        res.send(result)
     })
+
+    //admin
+    app.get('/users/admin/:email', async (req, res) => {
+      const email = req.params.email;
+       const query = { email };
+       const user = await userLoginCollection.findOne(query);
+       res.send({ isAdmin: user?.accountType === 'admin' });
+     });
+
+    //seller
+    app.get('/usersSeller/:email', async (req, res) => {
+      const email = req.params.email;
+       const query = { email };
+       const user = await userLoginCollection.findOne(query);
+       res.send({ isSeller: user?.accountType === 'Seller' });
+     });
+
+    //buyer
+    app.get('/usersBuyer/:email', async (req, res) => {
+      const email = req.params.email;
+       const query = { email };
+       const user = await userLoginCollection.findOne(query);
+       res.send({ isBuyer: user?.accountType === 'Buyer' });
+     });
+
+     
 
 
   }
