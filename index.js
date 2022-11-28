@@ -139,7 +139,6 @@ async function run() {
         const query = { carType: 'Porsche' };
         const data = await productsDataCollection.find(query).toArray();
         return res.send(data);
-
       }
 
       const query = { carType: queryData };
