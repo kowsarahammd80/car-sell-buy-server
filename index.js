@@ -174,6 +174,15 @@ async function run() {
       res.send(result)
     })
 
+    //delete Report item
+    app.delete('/allReportDelete/:id', async(req, res) => {
+      const id = req.params.id
+      const query = {_id: ObjectId(id)}
+      const result = await reportDataCollection.deleteOne(query)
+      res.send(result)
+
+    })
+
     //admin
     app.get('/users/admin/:email', async (req, res) => {
       const email = req.params.email;
