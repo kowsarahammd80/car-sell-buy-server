@@ -166,6 +166,13 @@ async function run() {
        const result = await reportDataCollection.insertOne(reportData)
        res.send(result)
     })
+     
+    //all report list get
+    app.get('/allreportData', async(req, res) => {
+      const query = {}
+      const result = await reportDataCollection.find(query).toArray()
+      res.send(result)
+    })
 
     //admin
     app.get('/users/admin/:email', async (req, res) => {
@@ -185,11 +192,46 @@ async function run() {
 
     //buyer
     app.get('/usersBuyer/:email', async (req, res) => {
-      const email = req.params.email;
+      const email = req.query.email;
        const query = { email };
        const user = await userLoginCollection.findOne(query);
        res.send({ isBuyer: user?.accountType === 'Buyer' });
      });
+
+     //all seller
+     app.get("/allSellers", async (req, res) => {
+      // const queryData = req.params.accountType;
+      const query = { accountType: 'Seller' };
+      const curser = userLoginCollection.find(query);
+      const result = await curser.toArray();
+      res.send(result);
+    });
+
+    app.delete('/allSellerDelete/:id', async(req, res) => {
+        const id = req.params.id
+        const query = {_id: ObjectId(id)}
+        const result = await userLoginCollection.deleteOne(query)
+        res.send(result)
+    })
+      
+    //get all Buyer
+     app.get("/allBuyers", async (req, res) => {
+      // const queryData = req.params.accountType;
+      const query = { accountType: 'Buyer' };
+      const curser = userLoginCollection.find(query);
+      const result = await curser.toArray();
+      res.send(result);
+    });
+    
+    // delete Buyer
+    app.delete('/allBuyerDelete/:id', async(req, res) => {
+
+      const id = req.params.id
+      const query = {_id: ObjectId(id)}
+      const result = await userLoginCollection.deleteOne(query)
+      res.send(result)
+      
+    })
 
      
 
